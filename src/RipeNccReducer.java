@@ -57,8 +57,6 @@ public class RipeNccReducer extends
 			System.out.println(key.toString() + e);
 		}
 
-		//totalWordCount.set(sum);
-		// context.write(key, new IntWritable(sum));
-		
+			
 	}
 }

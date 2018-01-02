@@ -34,7 +34,7 @@ public class RipeNccDriver extends Configured implements Tool {
 		job.setMapperClass(RipeNccMapper.class);
 // 		job.setCombinerClass(RipeNccReducer.class);
 		job.setReducerClass(RipeNccReducer.class);
-
+//		job.setNumReduceTasks(2);
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
 		
