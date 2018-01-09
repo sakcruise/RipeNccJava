@@ -23,8 +23,8 @@ public class RipeNccReducer extends
 			while (prefix_values.hasNext()) {
 				String prefix_val = prefix_values.next().toString();
 				String[] prefix_Arr = prefix_val.split("\\|");
-				String prefix_1 = prefix_Arr[2];
-				ot = prefix_Arr[1];
+				String prefix_1 = prefix_Arr[1];
+				ot = prefix_Arr[0];
 				
 				if(ot.trim().equals("O4")) {
 					val_O4 = val_O4 + " " + prefix_1;

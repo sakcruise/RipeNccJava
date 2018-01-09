@@ -10,9 +10,11 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
 
-//	private final static IntWritable one = new IntWritable(1);
-//	private Text word = new Text();
-
+    private LongWritable orig_Key = new LongWritable();
+	private Text orig_value = new Text();
+	private LongWritable trans_Key = new LongWritable();
+	private Text trans_value = new Text();
+	
 	@Override
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		String line = value.toString();
@@ -29,8 +31,8 @@ public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text
 				 for(String asn_orig : asn_orig_arr ) 
 				 {
 					 try {
-						LongWritable orig_Key = new LongWritable(Long.parseLong(asn_orig.trim()));
-						Text orig_value = new Text(" | " + "O" + getPrefix(prefix) + " | " + prefix);			
+						orig_Key.set(Long.parseLong(asn_orig.trim()));
+						orig_value.set("O" + getPrefix(prefix) + " | " + prefix);			
 						context.write(orig_Key, orig_value);
 					 }
 					 catch (Exception e) {
@@ -40,8 +42,8 @@ public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text
 			 }
 			 else
 				{
-					LongWritable orig_Key = new LongWritable(Long.parseLong(asn_originating.trim()));
-					Text orig_value = new Text(" | " + "O" + getPrefix(prefix) + " | " + prefix);			
+					orig_Key.set(Long.parseLong(asn_originating.trim()));
+					orig_value.set("O" + getPrefix(prefix) + " | " + prefix);			
 					context.write(orig_Key, orig_value);
 				}
 			 
@@ -54,8 +56,8 @@ public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text
 					for(String asn_trans : asn_transit_arr ) 
 					{
 						try {
-							LongWritable trans_Key = new LongWritable(Long.parseLong(asn_trans.trim()));
-							Text trans_value = new Text(" | " + "T" + getPrefix(prefix) + " | " + prefix);			
+							trans_Key.set(Long.parseLong(asn_trans.trim()));
+							trans_value.set("T" + getPrefix(prefix) + " | " + prefix);			
 							context.write(trans_Key, trans_value);
 						}
 						catch (Exception e) {
@@ -66,7 +68,7 @@ public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text
 				else
 				{
 					LongWritable trans_Key = new LongWritable(Long.parseLong(asn_transit.trim()));
-					Text trans_value = new Text(" | " + "T" + getPrefix(prefix) + " | " + prefix);			
+					Text trans_value = new Text("T" + getPrefix(prefix) + " | " + prefix);			
 					context.write(trans_Key, trans_value);
 				}
 			
