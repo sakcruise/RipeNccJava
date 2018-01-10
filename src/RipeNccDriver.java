@@ -22,7 +22,7 @@ public class RipeNccDriver extends Configured implements Tool {
 		Configuration conf = getConf();
 		conf.set("mapred.textoutputformat.separator","|");
 		Job job = Job.getInstance(conf, "Ripe Ncc");
-		job.setJobName("wordcount");
+		job.setJobName("RipeNcc");
 		job.setJarByClass(RipeNccDriver.class);
 		
 		
