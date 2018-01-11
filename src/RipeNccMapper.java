@@ -19,7 +19,7 @@ public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		String line = value.toString();
 		 String[] data = line.split("\\|");
-		 if(data[5] != "")
+		 if(!data[5].isEmpty() && !data[6].isEmpty())
 		 {
 		 String[] asn_list = data[6].split(" ");
 		 String prefix = data[5];
@@ -46,8 +46,8 @@ public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text
 					orig_value.set("O" + getPrefix(prefix) + " | " + prefix);			
 					context.write(orig_Key, orig_value);
 				}
-			 
-			List<String> asn_Transiting = Arrays.asList(asn_list).subList(0, asn_list.length - 1);
+		  if(asn_list.length > 1) {
+			List<String> asn_Transiting = Arrays.asList(asn_list).subList(1, asn_list.length);
 			for(String asn_transit : asn_Transiting) 
 			{
 				if(asn_transit.contains("{") || asn_transit.contains("}")) 
@@ -67,12 +67,13 @@ public class RipeNccMapper extends Mapper<LongWritable, Text, LongWritable, Text
 				}
 				else
 				{
-					LongWritable trans_Key = new LongWritable(Long.parseLong(asn_transit.trim()));
-					Text trans_value = new Text("T" + getPrefix(prefix) + " | " + prefix);			
+					trans_Key = new LongWritable(Long.parseLong(asn_transit.trim()));
+					trans_value = new Text("T" + getPrefix(prefix) + " | " + prefix);			
 					context.write(trans_Key, trans_value);
 				}
 			
 			}
+		   }
     	 }
    }
 	
